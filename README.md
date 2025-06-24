@@ -80,7 +80,7 @@ It should contain:
 python main.py mydata
 ```
 
-This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ...TODO... verified claims in English language from **ClaimsKG**. 
+This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ...TODO... verified claims from **ClaimsKG**. 
 
 ---
 
@@ -105,6 +105,7 @@ You’ll get two output files:
 - The **top-ranked claim is the most similar claim in the database** — it may still be unrelated.
 
 ---
+
 
 ##  Optional: Customize the Similarity Method
 
@@ -153,7 +154,7 @@ The feature combination that performs best on CheckThat! benchmarks is (Boland e
 If you would like to evaluate if for your data, other feature combinations may yield better results, do the following:
 
 1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. ...TODO... format?
-2. Run SimBa with various combinations.
+2. Run SimBa with the feature combinations you would like to evaluate.
 3. Use CLEF's evaluation script to compute MAP@k scores.    ...TODO... how?
 
 
