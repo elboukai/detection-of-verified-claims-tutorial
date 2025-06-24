@@ -15,7 +15,12 @@ Fact-checking information has become a crucial endeavor attended to by different
 
 ## Preliminaries: How does SimBa work?
 
----
+SimBa operates in two steps:
+1. candidate retrieval: given an input claim, the 50 most similar claims in the corpus according to embedding-based similarities are selected as candidates.
+2. re-ranking: using a combination of different additional features, the candidates are re-ranked and the most similar candidates are returned.
+
+(...TODO... insert pipeline figure)
+
 
 ##  Step 1: Install SimBa
 
@@ -75,7 +80,7 @@ It should contain:
 python main.py mydata
 ```
 
-This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ....... verified claims in English language from **ClaimsKG**. 
+This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ...TODO... verified claims in English language from **ClaimsKG**. 
 
 ---
 
@@ -91,7 +96,7 @@ You’ll get two output files:
 
 | Query | Verified Claim | URL | Rating | Similarity |
 |-------|----------------|-----|--------|------------|
-| ....
+| ...TODO...
 
 ### ❗ Note:
 
@@ -141,15 +146,15 @@ You can combine them like this:
 ##  How to Evaluate and Tune Parameters
 
 The feature combination that performs best on CheckThat! benchmarks is (Boland et al. 2023)
-- Retrieval with `...`
-- ...
+- Candidate retrieval with `all-mpnet-base-v2`
+- ...TODO...
 - braycurtis similarity measure
 
 If you would like to evaluate if for your data, other feature combinations may yield better results, do the following:
 
-1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. ........ format?
+1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. ...TODO... format?
 2. Run SimBa with various combinations.
-3. Use CLEF's evaluation script to compute MAP@k scores.    ......... how?
+3. Use CLEF's evaluation script to compute MAP@k scores.    ...TODO... how?
 
 
 
