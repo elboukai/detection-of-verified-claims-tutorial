@@ -41,6 +41,8 @@ python
 >>> exit()
 ```
 
+Please refer to the SimBA MethodsHub repository [https://github.com/BDA-KTS/detection-of-verified-claims] for a more extensive guide. 
+
 ---
 
 ##  Step 2: Prepare Your Input File
@@ -117,11 +119,10 @@ SimBa **first retrieves top-50 candidates** using *one* embedding model (default
 
 Then it **re-ranks** those using:
 
-- **4 different pre-trained sentence embedding models**:
+- **3 different pre-trained sentence embedding models**:
   - `all-mpnet-base-v2`
   - `sentence-t5-base`
   - `unsup-simcse-roberta-base`
-  - `paraphrase-MiniLM-L6-v2`
 - Plus **lexical, referential, and string similarity features**
 
 ---
@@ -146,9 +147,9 @@ You can combine them like this:
 
 ##  How to Evaluate and Tune Parameters
 
-The feature combination that performs best on CheckThat! benchmarks is (Boland et al. 2023)
-- Candidate retrieval with `all-mpnet-base-v2`
-- ...TODO...
+The feature combination that performs best on CheckThat! benchmarks is 
+- Candidate retrieval with MPNet-Base (`all-mpnet-base-v2`)
+- Re-ranking with MPNet-Base, SimCSE, Sentence-T5, similar_words_ratio
 - braycurtis similarity measure
 
 If you would like to evaluate if for your data, other feature combinations may yield better results, do the following:
