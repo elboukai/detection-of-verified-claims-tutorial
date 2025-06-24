@@ -8,7 +8,10 @@ How can you check whether this claim has already been fact-checked? What evidenc
 
 This tutorial walks you through how to use **SimBa**, a high-performance method that retrieves **fact-checks for similar claims** from **ClaimsKG**, a structured database which serves as a registry of fact-checked claims.
 
+
 ## Preliminaries: What is ClaimsKG?
+
+Fact-checking information has become a crucial endeavor attended to by different initiatives around the globe. Fact-checks are scattered across different portals and are published in a variety of formats. ClaimsKG [https://data.gesis.org/claimskg/] harvests claims, claim reviews and respective metadata from popular fact-checking sites and makes them available in a homogeneous, machine-readable format. 
 
 ## Preliminaries: How does SimBa work?
 
