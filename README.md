@@ -1,12 +1,16 @@
 # Tutorial: Fact-Checking a Claim Using SimBa
 
-##  Problem: "Did Cher really die in December 2022?"
+##  Problem: What is the veracity of a claim? Has it been fact-checked before?
 
-Suppose you see the claim online:  
-**"Singer and actress Cher died in December 2022 or January 2023."**  
-You’re not sure if it’s true — how can you check whether this claim has already been fact-checked?
+Suppose you find this claim in a political debate or online:  
+**"Dog-owners face 78% higher risk of catching Covid-19."**  
+How can you check whether this claim has already been fact-checked? What evidence did the fact-checkers find for or against it and what was their verdict? Or are there maybe related fact-checks that may help you find relevant evidence concerning this claim?
 
-This tutorial walks you through how to use **SimBa**, a lightweight method that retrieves **fact-checks for similar claims** using semantic, lexical, and entity-based similarity.
+This tutorial walks you through how to use **SimBa**, a high-performance method that retrieves **fact-checks for similar claims** from **ClaimsKG**, a structured database which serves as a registry of fact-checked claims.
+
+## Preliminaries: What is ClaimsKG?
+
+## Preliminaries: How does SimBa work?
 
 ---
 
