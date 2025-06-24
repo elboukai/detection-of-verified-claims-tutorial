@@ -14,26 +14,7 @@ This tutorial walks you through how to use **SimBa**, a high-performance method 
 
 ---
 
-##  Step 1: Prepare Your Input File
-
-Create a file:
-
-```
-data/sample/queries.tsv
-```
-
-It should contain:
-
-```
-25603	Singer and actress Cher died in December 2022 or January 2023.
-```
-
-- `25603` is a query ID.
-- One query per line, with a tab (`	`) separating ID and claim text.
-
----
-
-##  Step 2: Install SimBa
+##  Step 1: Install SimBa
 
 ```bash
 git clone https://github.com/BDA-KTS/detection-of-verified-claims.git
@@ -54,13 +35,44 @@ python
 
 ---
 
+##  Step 2: Prepare Your Input File
+
+First, create a directory in the data subfolder. You can assign any name to it. Let's call it "mydata" for this tutorial. 
+
+```bash
+cd detection-of-verified-claims/data
+mkdir mydata
+cd ..
+```
+
+Create a file in your new subfolder:
+
+```
+data/mydata/queries.tsv
+```
+
+It should contain:
+
+```
+1	Dog-owners face 78% higher risk of catching Covid-19.
+```
+
+- `1`: the ID for your input claim (from now on called "query"). You can use any number as the ID.
+- (`	`): a tab separating the ID and the query text
+- `Dog-owners face 78% higher risk of catching Covid-19.`: the query text. Please make sure that it does not contain any tabs or newlines. 
+- You can enter an arbitrary number of queries to the file. For this, enter one query per line, each starting with an ID, followed by a tab and a query text. Please make sure that your IDs are unique, i.e. every query has a different ID. 
+
+---
+
+
+
 ##  Step 3: Run SimBa
 
 ```bash
-python main.py sample
+python main.py mydata
 ```
 
-This compares your query to 74,000 verified claims in **ClaimsKG** and ranks the most similar ones.
+This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ....... verified claims in English language from **ClaimsKG**. 
 
 ---
 
@@ -68,25 +80,21 @@ This compares your query to 74,000 verified claims in **ClaimsKG** and ranks the
 
 You’ll get two output files:
 
-- `data/sample/pred_qrels.tsv`: CLEF format for evaluation
-- `data/sample/pred_client.tsv`: Human-readable
+- `data/mydata/pred_client.tsv`: Primary output file
+- `data/mydata/pred_qrels.tsv`: CLEF format for automatic evaluation
 
-### Sample: `pred_client.tsv`
+
+### Output: `pred_client.tsv`
 
 | Query | Verified Claim | URL | Rating | Similarity |
 |-------|----------------|-----|--------|------------|
-| Cher... | Cher died... | [Snopes](https://www.snopes.com/fact-check/cher-death-hoax) | False | 72.06 |
-| Cher... | Chevy Chase... | snopes.com | False | 39.27 |
-| Cher... | Cher + Plant... | snopes.com | False | 36.72 |
-| Cher... | Karachi storm... | afp.com | False | 31.60 |
-| Cher... | Hillary run... | truthorfiction.com | Decontextualized | 31.38 |
+| ....
 
-### ❗ Important Notes:
+### ❗ Note:
 
-- You will **always get 5 results** (default), even if none are actually similar.
-- The **top-ranked claim is just the most similar** — it may still be unrelated.
-- The **similarity score** ranges from **0 to ~100**, indicating relative closeness based on all features. A higher score does *not* guarantee factual relevance.
-- The CheckThat! paper (Hövelmeyer et al., 2022) shows that **semantic similarity alone is not always sufficient** — hence, SimBa uses re-ranking with multiple features.
+- The **similarity score** ranges from **0 to ~100**, indicating relative similarity based on all employed features.
+- You will **always get 5 results** (default), even if the most similar claims do not have a high similarity score.
+- The **top-ranked claim is the most similar claim in the database** — it may still be unrelated.
 
 ---
 
@@ -100,10 +108,12 @@ SimBa **first retrieves top-50 candidates** using *one* embedding model (default
 
 Then it **re-ranks** those using:
 
-- **4 different sentence embedding models**
+- **4 different pre-trained sentence embedding models**:
+  - `all-mpnet-base-v2`
+  - `sentence-t5-base`
+  - `unsup-simcse-roberta-base`
+  - `paraphrase-MiniLM-L6-v2`
 - Plus **lexical, referential, and string similarity features**
-
-This combination performed best on CheckThat! benchmarks.
 
 ---
 
@@ -125,41 +135,32 @@ You can combine them like this:
 
 ---
 
-###  Embedding Models Used in Re-Ranking
-
-SimBa combines 4 pretrained models:
-
-- `all-mpnet-base-v2`
-- `sentence-t5-base`
-- `unsup-simcse-roberta-base`
-- `paraphrase-MiniLM-L6-v2`
-
-These are fixed inside the code (re-ranking step). The candidate retrieval step uses one of these (default or user-defined).
-
----
-
 ##  How to Evaluate and Tune Parameters
 
-To see which combination works best for your data:
+The feature combination that performs best on CheckThat! benchmarks is (Boland et al. 2023)
+- Retrieval with `...`
+- ...
+- braycurtis similarity measure
 
-1. Prepare your queries and a goldstandard file (`gold.tsv`) listing correct matches.
+If you would like to evaluate if for your data, other feature combinations may yield better results, do the following:
+
+1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. ........ format?
 2. Run SimBa with various combinations.
-3. Use CLEF's evaluation script to compute MAP@k scores.
+3. Use CLEF's evaluation script to compute MAP@k scores.    ......... how?
 
-According to [Hövelmeyer et al. 2022], the **best performing combination** was:
 
-- Retrieval with `all-mpnet-base-v2`
-- Re-ranking using the 4 embeddings + lexical + referential similarity
 
 ---
 
 ##  Fast Reruns
 
-Use `-c` to reuse cached embeddings:
+Use `-c` to reuse cached embeddings for your corpus:
 
 ```bash
 python main.py sample -c
 ```
+
+You may do so whenever you are repeatedly working with the same corpus of previously fact-checked claims. SimBa will compute the embeddings once, store and reuse them. When you want to use a different corpus than for your previous SimBa call, do not use the cached embeddings of the previously used corpus. 
 
 ---
 
