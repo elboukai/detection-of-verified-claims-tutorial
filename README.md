@@ -19,7 +19,7 @@ SimBa operates in two steps:
 1. candidate retrieval: given an input claim, the 50 most similar claims in the corpus according to embedding-based similarities are selected as candidates.
 2. re-ranking: using a combination of different additional features, the candidates are re-ranked and the most similar candidates are returned.
 
-(...TODO... insert pipeline figure)
+![Pipeline](screenshots/SimBA_2023_architecture.png)
 
 
 ##  Step 1: Install SimBa
@@ -82,7 +82,7 @@ It should contain:
 python main.py mydata
 ```
 
-This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ...TODO... verified claims from **ClaimsKG**. 
+This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ~74000 verified claims from **ClaimsKG**. 
 
 ---
 
@@ -96,9 +96,14 @@ You’ll get two output files:
 
 ### Output: `pred_client.tsv`
 
-| Query | Verified Claim | URL | Rating | Similarity |
-|-------|----------------|-----|--------|------------|
-| ...TODO...
+| Query                                                      | VClaim                                                    | ClaimReviewURL                                              | Rating           | Similarity       |
+|------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------|------------------|------------------|
+| Dog-owners face 78% higher risk of catching Covid-19 | Getting the first dose of Covid-19 vaccine increases risk of catching the novel coronavirus | https://factcheck.afp.com/misleading-facebook-posts-claim-covid-19-vaccine-increases-risk-catching-novel-coronavirus | b'Misleading'            | 45.55524233523532 |
+| Dog-owners face 78% higher risk of catching Covid-19 | People vaccinated against Covid-19 pose a health risk to others by shedding spike proteins      | https://factcheck.afp.com/covid-19-vaccine-does-not-make-people-dangerous-others | b'False'            | 43.15199331134423 |
+| Dog-owners face 78% higher risk of catching Covid-19 | Vaccinated people are 885% more likely to die of Covid-19 than unvaccinated people | https://factcheck.afp.com/http%253A%252F%252Fdoc.afp.com%252F9JE74M-2 | b'False'            | 42.53184410315937 |
+| Dog-owners face 78% higher risk of catching Covid-19 | In the United Kingdom, 70-plus percent of the people who die now from COVID are fully vaccinated.           | https://www.politifact.com/factchecks/2021/oct/29/alex-berenson/covid-19-death-rate-england-much-higher-among-unva/      | FALSE            | 42.506568861739346 |
+| Dog-owners face 78% higher risk of catching Covid-19 | Only the fully vaccinated should fear the new ‘worst ever’ Covid-19 variant; data shows they already account for 4 in every 5 Covid deaths | https://www.politifact.com/factchecks/2021/dec/07/blog-posting/article-misleads-dangers-omicron-variant-using-uk-/| FALSE | 42.1289266007539 |
+
 
 ### ❗ Note:
 
@@ -154,11 +159,81 @@ The feature combination that performs best on CheckThat! benchmarks is
 
 If you would like to evaluate if for your data, other feature combinations may yield better results, do the following:
 
-1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. ...TODO... format?
-2. Run SimBa with the feature combinations you would like to evaluate.
-3. Use CLEF's evaluation script to compute MAP@k scores.    ...TODO... how?
+### 1. Prepare a goldstandard file (`gold.tsv`) for your query listing correct matches. 
 
 
+This file should match input queries with verified claims in **TREC qrels format**:
+```
+<query_id>    0    <correct_claim_id>    1
+```
+
+Example:
+
+```
+25603    0    59713    1
+25603    0    59744    1
+```
+
+Save this file in:
+
+```
+data/mydata/gold.tsv
+```
+
+---
+### 2. Run SimBa with the feature combinations you would like to evaluate.
+You can configure both the **candidate retrieval** and the **re-ranking** settings in `main.py`:
+
+```python
+retrieval_command = [
+  ...
+  "-sentence_embedding_models", "all-mpnet-base-v2",
+  "-lexical_similarity_measures", "similar_words_ratio",
+  "-referential_similarity_measures", "spacy_ne_similarity",
+  "-string_similarity_measures", "levenshtein",
+  "--similarity_measure", "braycurtis"
+]
+```
+
+Then run:
+
+```bash
+python main.py mydata
+```
+
+This will create:
+
+```
+data/mydata/pred_qrels.tsv
+```
+
+---
+### 3. Use CLEF's evaluation script to compute MAP@k scores.   
+#### Clone the CLEF CheckThat! Lab 2020 repository
+
+```bash
+git https://github.com/sshaar/clef2020-factchecking-task2
+cd clef2020-factchecking-task2
+```
+
+#### Run the evaluation script
+
+```bash
+python evaluate.py \
+  --scores /path/to/data/mydata/pred_qrels.tsv \
+  --gold-labels /path/to/data/mydata/gold.tsv \
+  --metrics map --metrics precision --metrics reciprocal_rank \
+  --depths 1 --depths 3 --depths 5 \
+  -o results.tsv
+```
+
+This will produce metrics like:
+
+- **MAP@1**, **MAP@3**, **MAP@5**
+- **Precision@k**
+- **MRR@k**
+
+Use these metrics to test different combinations and optimize performance.
 
 ---
 
