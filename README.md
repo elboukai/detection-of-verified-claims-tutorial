@@ -1,6 +1,6 @@
 # Tutorial: Fact-Checking a Claim Using SimBa
 
-##  Problem: What is the veracity of a claim? Has it been fact-checked before?
+##  Problem Description: What is the veracity of a claim? Has it been fact-checked before?
 
 Suppose you find this claim in a political debate or online:  
 **"Dog-owners face 78% higher risk of catching Covid-19."**  
