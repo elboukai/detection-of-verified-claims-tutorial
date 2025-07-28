@@ -30,17 +30,6 @@ cd detection-of-verified-claims
 pip install -r requirements.txt
 ```
 
-Then download required NLTK data:
-
-```bash
-python
->>> import nltk
->>> nltk.download('stopwords')
->>> nltk.download('punkt')
->>> nltk.download('wordnet')
->>> exit()
-```
-
 Please refer to the SimBA MethodsHub repository [https://github.com/BDA-KTS/detection-of-verified-claims] for a more extensive guide. 
 
 ---
@@ -69,7 +58,7 @@ It should contain:
 
 - `1`: the ID for your input claim (from now on called "query"). You can use any number as the ID.
 - (`	`): a tab separating the ID and the query text
-- `Dog-owners face 78% higher risk of catching Covid-19.`: the query text. Please make sure that it does not contain any tabs or newlines. 
+- `Covid-19 vaccines increase the risk of dying from the new Covid-19 variants`: the query text. Please make sure that it does not contain any tabs or newlines. 
 - You can enter an arbitrary number of queries to the file. For this, enter one query per line, each starting with an ID, followed by a tab and a query text. Please make sure that your IDs are unique, i.e. every query has a different ID. 
 
 ---
@@ -82,7 +71,7 @@ It should contain:
 python main.py mydata
 ```
 
-This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ~74000 verified claims from **ClaimsKG**. 
+This compares your query to all claims in the `data/claimsKG/corpus.tsv` file and retrieves the most similar ones. This file contains ~40.000 verified claims from **ClaimsKG**. 
 
 ---
 
@@ -96,13 +85,13 @@ You’ll get two output files:
 
 ### Output: `pred_client.tsv`
 
-| Query                                                      | VClaim                                                    | ClaimReviewURL                                              | Rating           | Similarity       |
-|------------------------------------------------------------|-----------------------------------------------------------|------------------------------------------------------------|------------------|------------------|
-| Dog-owners face 78% higher risk of catching Covid-19 | Getting the first dose of Covid-19 vaccine increases risk of catching the novel coronavirus | https://factcheck.afp.com/misleading-facebook-posts-claim-covid-19-vaccine-increases-risk-catching-novel-coronavirus | b'Misleading'            | 45.55524233523532 |
-| Dog-owners face 78% higher risk of catching Covid-19 | People vaccinated against Covid-19 pose a health risk to others by shedding spike proteins      | https://factcheck.afp.com/covid-19-vaccine-does-not-make-people-dangerous-others | b'False'            | 43.15199331134423 |
-| Dog-owners face 78% higher risk of catching Covid-19 | Vaccinated people are 885% more likely to die of Covid-19 than unvaccinated people | https://factcheck.afp.com/http%253A%252F%252Fdoc.afp.com%252F9JE74M-2 | b'False'            | 42.53184410315937 |
-| Dog-owners face 78% higher risk of catching Covid-19 | In the United Kingdom, 70-plus percent of the people who die now from COVID are fully vaccinated.           | https://www.politifact.com/factchecks/2021/oct/29/alex-berenson/covid-19-death-rate-england-much-higher-among-unva/      | FALSE            | 42.506568861739346 |
-| Dog-owners face 78% higher risk of catching Covid-19 | Only the fully vaccinated should fear the new ‘worst ever’ Covid-19 variant; data shows they already account for 4 in every 5 Covid deaths | https://www.politifact.com/factchecks/2021/dec/07/blog-posting/article-misleads-dangers-omicron-variant-using-uk-/| FALSE | 42.1289266007539 |
+| Query | VClaim | ClaimReviewURL | Rating | Similarity |
+|-------|--------|----------------|--------|------------|
+| Covid-19 vaccines increase the risk of dying from the new Covid-19 variants | Getting the first dose of Covid-19 vaccine increases risk of catching the novel coronavirus | https://factcheck.afp.com/misleading-facebook-posts-claim-covid-19-vaccine-increases-risk-catching-novel-coronavirus | b'Misleading' | 45.55524233523532 |
+| Covid-19 vaccines increase the risk of dying from the new Covid-19 variants | People vaccinated against Covid-19 pose a health risk to others by shedding spike proteins | https://factcheck.afp.com/covid-19-vaccine-does-not-make-people-dangerous-others | b'False' | 43.15199331134423 |
+| Covid-19 vaccines increase the risk of dying from the new Covid-19 variants | Vaccinated people are 885% more likely to die of Covid-19 than unvaccinated people | https://factcheck.afp.com/http%253A%252F%252Fdoc.afp.com%252F9JE74M-2 | b'False' | 42.53184410315937 |
+| Covid-19 vaccines increase the risk of dying from the new Covid-19 variants | In the United Kingdom, 70-plus percent of the people who die now from COVID are fully vaccinated. | https://www.politifact.com/factchecks/2021/oct/29/alex-berenson/covid-19-death-rate-england-much-higher-among-unva/ | FALSE | 42.506568861739346 |
+| Covid-19 vaccines increase the risk of dying from the new Covid-19 variants | Only the fully vaccinated should fear the new 'worst ever' Covid-19 variant; data shows they already account for 4 in every 5 Covid deaths | https://www.politifact.com/factchecks/2021/dec/07/blog-posting/article-misleads-dangers-omicron-variant-using-uk-/ | FALSE | 42.1289266007539 |
 
 
 ### ❗ Note:
@@ -261,6 +250,6 @@ You may do so whenever you are repeatedly working with the same corpus of previo
 
 Contact: [katarina.boland@hhu.de](mailto:katarina.boland@hhu.de)
 
----
+
 
 
