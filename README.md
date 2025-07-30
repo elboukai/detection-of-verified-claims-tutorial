@@ -3,7 +3,7 @@
 ##  Problem Description: What is the veracity of a claim? Has it been fact-checked before?
 
 Suppose you find this claim in a political debate or online:  
-**"Dog-owners face 78% higher risk of catching Covid-19."**  
+**"Covid-19 vaccines increase the risk of dying from the new Covid-19 variants."**  
 How can you check whether this claim has already been fact-checked? What evidence did the fact-checkers find for or against it and what was their verdict? Or are there maybe related fact-checks that may help you find relevant evidence concerning this claim?
 
 This tutorial walks you through how to use **SimBa**, a high-performance method that retrieves **fact-checks for similar claims** from **ClaimsKG**, a structured database which serves as a registry of fact-checked claims.
